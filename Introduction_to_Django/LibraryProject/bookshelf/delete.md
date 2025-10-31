@@ -1,4 +1,4 @@
-# Delete Operation
+# Delete Operation "book.delete"
 
 **Command:** Delete the book you created and confirm the deletion by trying to retrieve all books again.
 
@@ -10,4 +10,5 @@ book_to_delete = Book.objects.get(title="Nineteen Eighty-Four")
 book_to_delete.delete() 
 all_books = Book.objects.all()
 print(all_books)
+
 
