@@ -2,7 +2,7 @@
 "relationship_app/list_books.html", "Book.objects.all()"
 
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 # 🎯 CORRECTED IMPORT: Explicitly including 'Library' in the import statement
 from .models import Book, Library 
 from .models import Library
