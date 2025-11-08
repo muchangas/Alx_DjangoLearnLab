@@ -1,5 +1,5 @@
 # relationship_app/models.py
-
+class UserProfile(models.Model):", "Admin", "Member"
 from django.db import models
 
 # 1. Author Model (Primary entity)
