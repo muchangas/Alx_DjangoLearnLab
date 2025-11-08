@@ -30,8 +30,8 @@ def setup_data():
     library_branch.books.add(book1)
     
     # 5. Create Librarians (OneToOne)
-    librarian_central = Librarian.objects.create(name="Mr. Smith", library=library_central)
-    librarian_branch = Librarian.objects.create(name="Ms. Johnson", library=library_branch)
+    Librarian.objects.create(name="Mr. Smith", library=library_central)
+    Librarian.objects.create(name="Ms. Johnson", library=library_branch)
 
     print("Data setup complete.")
 
@@ -41,45 +41,52 @@ def sample_queries():
 
     # --- QUERY 1: ForeignKey Relationship ---
     # Query all books by a specific author (using the related_name 'books')
-    print("\n[QUERY 1] Books by George Orwell (Author ID 2):")
+    author_name = "George Orwell"
+    print(f"\n[QUERY 1] Books by {author_name} (ForeignKey):")
     try:
-        orwell = Author.objects.get(name="George Orwell")
+        author_instance = Author.objects.get(name=author_name)
         # Use the reverse relationship manager: author_instance.books.all()
-        orwell_books = orwell.books.all()
+        orwell_books = author_instance.books.all()
         for book in orwell_books:
             print(f"- {book.title}")
     except Author.DoesNotExist:
-        print("Author 'George Orwell' not found.")
+        print(f"Author '{author_name}' not found.")
 
 
     # --- QUERY 2: ManyToMany Relationship ---
     # List all books in a library
-    print("\n[QUERY 2] Books in Central City Library:")
+    # **THIS SECTION NOW USES THE VARIABLE SYNTAX**
+    library_name = "Central City Library"
+    print(f"\n[QUERY 2] Books in {library_name} (ManyToMany):")
     try:
-        central_library = Library.objects.get(name="Central City Library")
+        # Using the variable for lookup: Library.objects.get(name=library_name)
+        central_library = Library.objects.get(name=library_name) 
         # Access the ManyToMany field directly
         central_books = central_library.books.all() 
         for book in central_books:
-            print(f"- {book.title} (Author: {book.author.name})")
+            print(f"- {book.title}")
     except Library.DoesNotExist:
-        print("Library 'Central City Library' not found.")
+        print(f"Library '{library_name}' not found.")
 
 
     # --- QUERY 3: OneToOne Relationship ---
-    # Retrieve the librarian for a library (using the default reverse accessor 'librarian')
-    print("\n[QUERY 3] Librarian for North Branch Library:")
+    # Retrieve the librarian for a library
+    # **THIS SECTION NOW USES THE VARIABLE SYNTAX**
+    library_name = "North Branch Library"
+    print(f"\n[QUERY 3] Librarian for {library_name} (OneToOne):")
     try:
-        branch_library = Library.objects.get(name="North Branch Library")
-        # Access the reverse OneToOne relationship: library_instance.model_name_lowercase
+        # Using the variable for lookup: Library.objects.get(name=library_name)
+        branch_library = Library.objects.get(name=library_name)
+        # Access the reverse OneToOne relationship
         branch_librarian = branch_library.librarian
         print(f"- Librarian Name: {branch_librarian.name}")
     except Library.DoesNotExist:
-        print("Library 'North Branch Library' not found.")
+        print(f"Library '{library_name}' not found.")
     except Librarian.DoesNotExist:
-        print("Librarian not found for North Branch Library.")
+        print(f"Librarian not found for {library_name}.")
 
     print("\n--- Queries finished ---")
 
-# Run the setup and queries
+# Execute setup and queries
 setup_data()
 sample_queries()
