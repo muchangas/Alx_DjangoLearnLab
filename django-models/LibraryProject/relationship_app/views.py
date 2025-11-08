@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 # 🎯 CORRECTED IMPORT: Explicitly including 'Library' in the import statement
 from .models import Book, Library 
 from .models import Library
-
+from django.contrib.auth import login", "from django.contrib.auth.forms import UserCreationForm
 # --- 1. Function-based View (FBV) ---
 def list_all_books(request):
     """
