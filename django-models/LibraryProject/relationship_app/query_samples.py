@@ -65,19 +65,22 @@ def sample_queries():
         print(f"Library '{library_name}' not found.")
 
 
-    # --- QUERY 3: OneToOne Relationship (Retrieve the librarian for a library) ---
+# --- QUERY 3: OneToOne Relationship (Retrieve the librarian for a library) ---
     library_name = "North Branch Library"
-    print(f"\n[QUERY 3] Librarian for {library_name} (OneToOne):")
+    print(f"\n[QUERY 3] Librarian for {library_name} (OneToOne - Direct Query):")
     try:
-        # CORRECTED: Use variable for lookup: Library.objects.get(name=library_name)
-        branch_library = Library.objects.get(name=library_name)
-        # Access the reverse OneToOne relationship (default accessor is model_name_lowercase)
-        branch_librarian = branch_library.librarian
+        # Step 1: Find the target Library instance (required for the direct lookup)
+        branch_library_instance = Library.objects.get(name=library_name)
+
+        # Step 2: Use the direct lookup on the Librarian model
+        # CORRECTED QUERY: Librarian.objects.get(library=instance)
+        branch_librarian = Librarian.objects.get(library=branch_library_instance)
+        
         print(f"- Librarian Name: {branch_librarian.name}")
     except Library.DoesNotExist:
         print(f"Library '{library_name}' not found.")
     except Librarian.DoesNotExist:
-        print(f"Librarian not found for {library_name}.")
+        print(f"Librarian not found associated with '{library_name}'.")
 
     print("\n--- Queries finished ---")
 
