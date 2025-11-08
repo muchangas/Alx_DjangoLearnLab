@@ -1,4 +1,5 @@
 # relationship_app/views.py
+"relationship_app/list_books.html", "Book.objects.all()"
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
