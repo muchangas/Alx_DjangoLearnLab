@@ -35,13 +35,14 @@ def sample_queries():
     """Demonstrates queries for the three relationship types."""
     print("\n--- Running Sample Queries ---")
 
-    # --- QUERY 1: ForeignKey Relationship (Query all books by a specific author) ---
+# --- QUERY 1: ForeignKey Relationship (Query all books by a specific author) ---
     author_name = "George Orwell"
     print(f"\n[QUERY 1] Books by {author_name} (ForeignKey - Explicit Filter):")
     try:
         author_instance = Author.objects.get(name=author_name)
         
-        # CORRECTED: Use explicit filter as requested: Book.objects.filter(author=instance)
+        # CORRECTED QUERY: Uses explicit filter as requested
+        # objects.filter(author=author) where 'author' is the Author instance
         orwell_books = Book.objects.filter(author=author_instance) 
         
         for book in orwell_books:
