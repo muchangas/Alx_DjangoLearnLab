@@ -1,0 +1,17 @@
+# relationship_app/urls.py
+
+from django.urls import path
+from . import views
+from .views import LibraryDetailView
+
+# Define the app's namespace for use in templates (e.g., {% url 'relationship_app:books' %})
+app_name = 'relationship_app'
+
+urlpatterns = [
+    # Function-based View (FBV): Lists all books at the /books/ path
+    path('books/', views.list_all_books, name='book_list'),
+    
+    # Class-based View (CBV): Displays details for a specific library at /library/1/
+    # Uses the primary key (pk) from the URL to fetch the specific Library object
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
+]
