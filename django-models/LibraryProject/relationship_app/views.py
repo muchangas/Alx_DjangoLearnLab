@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 # 🎯 CORRECTED IMPORT: Explicitly including 'Library' in the import statement
 from .models import Book, Library 
+from .models import Library
 
 # --- 1. Function-based View (FBV) ---
 def list_all_books(request):
