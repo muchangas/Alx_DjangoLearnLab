@@ -2,6 +2,7 @@
 from django.db import models
 "class Meta", "permissions"
 "can_add_book", "can_change_book", "can_delete_book"
+class UserProfile(models.Model):", "Admin", "Member"
 # 1. Author Model (Primary entity)
 class Author(models.Model):
     """
