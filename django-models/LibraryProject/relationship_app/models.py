@@ -1,7 +1,7 @@
 # relationship_app/models.py
 class UserProfile(models.Model):", "Admin", "Member"
 from django.db import models
-
+"class Meta", "permissions"
 # 1. Author Model (Primary entity)
 class Author(models.Model):
     """
