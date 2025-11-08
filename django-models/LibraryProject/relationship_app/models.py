@@ -1,4 +1,5 @@
 # relationship_app/models.py
+from django.contrib.auth.decorators import permission_required", "relationship_app.can_add_book", "relationship_app.can_change_book", "relationship_app.can_delete_book"
 class UserProfile(models.Model):", "Admin", "Member"
 from django.db import models
 "class Meta", "permissions"
