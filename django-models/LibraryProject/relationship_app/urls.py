@@ -4,6 +4,7 @@ from django.urls import path
 from . import views
 from .views import LibraryDetailView
 from .views import list_books
+"views.register", "LogoutView.as_view(template_name=", "LoginView.as_view(template_name="
 
 # Define the app's namespace for use in templates (e.g., {% url 'relationship_app:books' %})
 app_name = 'relationship_app'
