@@ -20,4 +20,4 @@ class BookAdmin(admin.ModelAdmin):
 
 
 # Register the Book model with the custom BookAdmin configuration
-admin.site.register(Book, BookAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
