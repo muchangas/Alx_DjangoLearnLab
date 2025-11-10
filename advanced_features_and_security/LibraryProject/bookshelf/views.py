@@ -64,3 +64,35 @@ class BookDetailView(PermissionRequiredMixin, View):
         return render(request, 'bookshelf/book_detail.html') # Placeholder
 
 # Note: You need corresponding URLs and templates for these views to function fully.
+# bookshelf/views.py
+
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Book # Assuming you have a Book model
+
+# Secure data access using Django ORM's parameterization
+def secure_search_books(request):
+    """
+    Securely handles user input for searching books using the Django ORM.
+    This prevents SQL injection.
+    """
+    query = request.GET.get('q', '') # Safely retrieve user input, defaulting to empty string
+
+    books = []
+    if query:
+        # Step 3: Secure Data Access - Using ORM for Query Parameterization
+        # The ORM automatically escapes the 'query' variable, preventing injection.
+        books = Book.objects.filter(
+            Q(title__icontains=query) | 
+            Q(author_name__icontains=query)
+        ).select_related('creator') # Use select_related/prefetch_related to optimize query
+
+    # Step 3: Validate and Sanitize Input (Implicit)
+    # Using the ORM implicitly validates the input against expected field types 
+    # (e.g., an attempt to use non-numeric input for an IntegerField fails validation).
+    
+    context = {
+        'books': books,
+        'search_query': query,
+    }
+    return render(request, 'bookshelf/book_list.html', context)
