@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Books</title>
+</head>
+<body>
+    <h1>📚 Books Available:</h1>
+    <ul>
+        {% for book in books %}
+        <li>**{{ book.title }}** by {{ book.author.name }}</li>
+        {% endfor %}
+    </ul>
+    
+    <p>View a specific library: <a href="{% url 'relationship_app:library_detail' pk=1 %}">Central City Library</a></p>
+</body>
+</html>
