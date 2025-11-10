@@ -15,7 +15,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # LibraryProject/settings.py
-
+bookshelf.CustomUser
 # ... existing imports and settings ...
 
 # --- Production Security Configuration (Step 1) ---
