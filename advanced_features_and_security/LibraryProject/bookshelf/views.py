@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import View
 
 from .models import Book # Assuming you have BookForm defined elsewhere
-
+from .forms import ExampleForm
 # --- Functional View Examples using @permission_required ---
 
 # 1. View protected by 'can_create'
