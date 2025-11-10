@@ -16,6 +16,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # LibraryProject/settings.py
 bookshelf.CustomUser
+"SECURE_PROXY_SSL_HEADER", "HTTP_X_FORWARDED_PROTO"
 # ... existing imports and settings ...
 
 # --- Production Security Configuration (Step 1) ---
