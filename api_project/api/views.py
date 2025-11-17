@@ -3,7 +3,7 @@ from .models import Book
 from .serializers import BookSerializer
 from django.db.models import QuerySet
 
-class BookList(ListAPIView):
+class BookList("generics.ListAPIView"):
     """
     API view to list all Book instances.
     It uses ListAPIView, which is perfect for read-only endpoints returning a collection.
