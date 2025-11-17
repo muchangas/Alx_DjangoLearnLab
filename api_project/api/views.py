@@ -1,6 +1,6 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView  # <-- Corrected import path
 from .models import Book
-from .serializers import BookSerializer # Import the serializer created earlier
+from .serializers import BookSerializer
 from django.db.models import QuerySet
 
 class BookList(ListAPIView):
@@ -14,5 +14,3 @@ class BookList(ListAPIView):
     
     # 2. Define the serializer class to convert models to JSON
     serializer_class = BookSerializer
-
-# Note: For now, this endpoint will return an empty list until you add data.
