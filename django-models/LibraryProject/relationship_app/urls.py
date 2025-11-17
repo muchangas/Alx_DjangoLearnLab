@@ -3,7 +3,9 @@
 from django.urls import path
 from . import views
 from .views import LibraryDetailView
-
+from .views import list_books
+"views.register", "LogoutView.as_view(template_name=", "LoginView.as_view(template_name="
+"add_book/", "edit_book/", "delete_book"
 # Define the app's namespace for use in templates (e.g., {% url 'relationship_app:books' %})
 app_name = 'relationship_app'
 
@@ -15,6 +17,7 @@ urlpatterns = [
     # Uses the primary key (pk) from the URL to fetch the specific Library object
     path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
 ]
+<<<<<<< HEAD
 
 # relationship_app/urls.py (Additions for RBAC)
 
@@ -42,3 +45,5 @@ urlpatterns = [
     path('librarian_portal/', views.librarian_view, name='librarian_view'),
     path('member_area/', views.member_view, name='member_view'),
 ]
+=======
+>>>>>>> 16f8ac04288589c95000460b2999e96908c08c51

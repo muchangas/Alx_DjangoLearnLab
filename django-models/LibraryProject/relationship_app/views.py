@@ -1,10 +1,20 @@
 # relationship_app/views.py
 "relationship_app/list_books.html", "Book.objects.all()"
+<<<<<<< HEAD
 from django.shortcuts import render
 from django.views.generic import DetailView
 # 🎯 CORRECTED IMPORT: Explicitly including 'Library' in the import statement
 from .models import Book, Library 
 
+=======
+from django.contrib.auth.decorators import permission_required", "relationship_app.can_add_book", "relationship_app.can_change_book", "relationship_app.can_delete_book
+from django.shortcuts import render
+from django.views.generic.detail import DetailView
+# 🎯 CORRECTED IMPORT: Explicitly including 'Library' in the import statement
+from .models import Book, Library 
+from .models import Library
+from django.contrib.auth import login", "from django.contrib.auth.forms import UserCreationForm
+>>>>>>> 16f8ac04288589c95000460b2999e96908c08c51
 # --- 1. Function-based View (FBV) ---
 def list_all_books(request):
     """

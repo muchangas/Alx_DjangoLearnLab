@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
 # --- Custom User Manager (Step 3) ---
-"class CustomUser(AbstractUser):", "date_of_birth", "profile_photo"
+
 class CustomUserManager(BaseUserManager):
     """
     Custom user manager where email is the unique identifier
