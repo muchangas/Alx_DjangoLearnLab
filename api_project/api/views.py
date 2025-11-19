@@ -21,3 +21,20 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+from rest_framework import viewsets
+from .models import Book
+from .serializers import BookSerializer
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+
+class BookViewSet(viewsets.ModelViewSet):
+    """
+    A ViewSet for viewing and editing user instances.
+    Authentication: Token Authentication is required.
+    Permissions: Only authenticated users can access this view.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    
+    # Adds the permission layer: Only logged in users can access this
+    permission_classes = [IsAuthenticated]
