@@ -21,13 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 from django.contrib import admin
-from django.urls import path, include # Import 'include'
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # --- Connect the 'api' app URLs ---
-    # Any request starting with 'api/' will be handled by 'api.urls'
-    path('api/', include('api.urls')), 
-    # -----------------------------------
+    path('api/', include('api.urls')),  # This connects your app's URLs to the project
 ]
