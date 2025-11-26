@@ -5,7 +5,7 @@ from .views import (
     BookListCreate,
     BookDetail,
     BookUpdate,
-    BookDelete
+    BookDelete,
 )
 
 # Use DefaultRouter for AuthorViewSet
@@ -24,11 +24,11 @@ urlpatterns = [
     path('books/generic/', BookListCreate.as_view(), name='book-list-create'),
 
     # Detail (GET)
-    path('books/generic/<int:pk>/', BookDetail.as_view(), name='book-detail'),
+    path('books/generic/<int:pk>/', Books/Detail.as_view(), name='book-detail'),
 
     # Update (PUT/PATCH)
-    path('books/generic/<int:pk>/update/', BookUpdate.as_view(), name='book-update'),
+    path('books/generic/<int:pk>/update/', Books/Update.as_view(), name='book-update'),
 
     # Delete (DELETE)
-    path('books/generic/<int:pk>/delete/', BookDelete.as_view(), name='book-delete'),
+    path('books/generic/<int:pk>/delete/', Books/Delete.as_view(), name='book-delete'),
 ]
