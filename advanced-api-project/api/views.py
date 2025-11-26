@@ -1,26 +1,95 @@
 from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework import permissions
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
 
 # =========================================================================
-# View Definitions
+# View Definitions - Author (Using ModelViewSet for Simplicity)
 # =========================================================================
 
 class AuthorViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing Author instances.
-    This provides endpoints for creating, retrieving, updating, and deleting
-    Author objects, and showcases the nested Book list in the serialized output.
+    Kept as ModelViewSet to demonstrate the power of automatic routing.
     """
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+    # Read-only for unauthenticated users, fully editable for staff/superusers
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class BookViewSet(viewsets.ModelViewSet):
+# =========================================================================
+# View Definitions - Book (Using Custom Generic Views for Granularity)
+# This demonstrates precise control over permissions and functionality for
+# each type of CRUD operation.
+# =========================================================================
+
+class BookListCreate(generics.ListCreateAPIView):
     """
-    A viewset for viewing and editing Book instances.
-    This allows direct interaction with books, including applying the
-    publication_year validation.
+    Book List View (GET /api/books/generic/)
+    Book Create View (POST /api/books/generic/)
+
+    Configuration:
+    - queryset: Defines the set of books to retrieve.
+    - serializer_class: Specifies the serializer for data conversion and validation.
+    - permission_classes:
+        - List (GET) is allowed for any user (IsAuthenticatedOrReadOnly).
+        - Create (POST) requires the user to be authenticated.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    # Customization Example (Optional):
+    # def perform_create(self, serializer):
+    #     # Example hook: automatically set the author to the current logged-in user,
+    #     # assuming the Author model was linked to the User model.
+    #     # serializer.save(author=self.request.user.author_profile)
+    #     serializer.save()
+
+
+class BookDetail(generics.RetrieveAPIView):
+    """
+    Book Detail View (GET /api/books/generic/<pk>/)
+
+    Configuration:
+    - retrieve method is read-only.
+    - Permissions are set to allow any user to read a specific book (AllowAny).
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class BookUpdate(generics.UpdateAPIView):
+    """
+    Book Update View (PUT/PATCH /api/books/generic/<pk>/update/)
+
+    Configuration:
+    - Only authenticated users can perform updates.
+    - `UpdateAPIView` handles both PUT (full replacement) and PATCH (partial update).
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    # Restrict to authenticated users for writing operations
+    permission_classes = [permissions.IsAuthenticated]
+
+    # Customization Example: You could override perform_update here for side effects
+    # def perform_update(self, serializer):
+    #     instance = serializer.save()
+    #     # Send a notification after a successful update
+    #     # print(f"Book {instance.title} updated successfully.")
+
+
+class BookDelete(generics.DestroyAPIView):
+    """
+    Book Delete View (DELETE /api/books/generic/<pk>/delete/)
+
+    Configuration:
+    - Only authenticated users can perform deletions.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    # Restrict to authenticated users for deletion
+    permission_classes = [permissions.IsAuthenticated]
