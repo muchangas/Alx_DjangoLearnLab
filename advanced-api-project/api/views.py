@@ -25,7 +25,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 # each type of CRUD operation.
 # =========================================================================
 
-class BookListCreate(generics.ListCreateAPIView):
+class BookListCreate(generics.CreateView):
     """
     Book List View (GET /api/books/generic/)
     Book Create View (POST /api/books/generic/)
@@ -49,7 +49,7 @@ class BookListCreate(generics.ListCreateAPIView):
     #     serializer.save()
 
 
-class BookDetail(generics.RetrieveAPIView):
+class BookDetail(generics.DetailveView):
     """
     Book Detail View (GET /api/books/generic/<pk>/)
 
@@ -62,7 +62,7 @@ class BookDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class BookUpdate(generics.UpdateAPIView):
+class BookUpdate(generics.UpdateView):
     """
     Book Update View (PUT/PATCH /api/books/generic/<pk>/update/)
 
@@ -82,7 +82,7 @@ class BookUpdate(generics.UpdateAPIView):
     #     # print(f"Book {instance.title} updated successfully.")
 
 
-class BookDelete(generics.DestroyAPIView):
+class BookDelete(generics.DeleteView):
     """
     Book Delete View (DELETE /api/books/generic/<pk>/delete/)
 
