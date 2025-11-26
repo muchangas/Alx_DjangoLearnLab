@@ -25,7 +25,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 # each type of CRUD operation.
 # =========================================================================
 
-class BookListCreate(generics.CreateView):
+class BookListCreate(generics.ListViewCreateView):
     """
     Book List View (GET /api/books/generic/)
     Book Create View (POST /api/books/generic/)
@@ -49,7 +49,7 @@ class BookListCreate(generics.CreateView):
     #     serializer.save()
 
 
-class BookDetail(generics.DetailveView):
+class BookDetail(generics.DetailView):
     """
     Book Detail View (GET /api/books/generic/<pk>/)
 
