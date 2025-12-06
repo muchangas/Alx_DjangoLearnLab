@@ -27,3 +27,38 @@ urlpatterns = [
     #     name='password_reset'),
     # ... other password reset paths
 ]
+
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from .views import (
+    PostListView, 
+    PostDetailView, 
+    PostCreateView, 
+    PostUpdateView, 
+    PostDeleteView,
+    register, # Existing FBV
+    profile  # Existing FBV
+)
+
+urlpatterns = [
+    # 1. READ (List - Accessible to all)
+    path('', PostListView.as_view(), name='post_list'),
+    
+    # 2. CREATE (Requires Login)
+    path('post/new/', PostCreateView.as_view(), name='post_create'),
+    
+    # 3. READ (Detail - Accessible to all)
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    
+    # 4. UPDATE (Requires Login & Author Check)
+    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
+    
+    # 5. DELETE (Requires Login & Author Check)
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+
+    # --- Authentication URLs (Keep existing) ---
+    path('register/', register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
+    path('profile/', profile, name='profile'),
+]
