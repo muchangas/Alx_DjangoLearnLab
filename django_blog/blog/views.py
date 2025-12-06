@@ -164,7 +164,7 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm() 
         return context
 
-# ... (Keep existing PostCreateView, PostUpdateView, PostDeleteView) ...
+# ... (Keep existing PostCreateView, CommentCreateView, PostUpdateView, PostDeleteView) ...
 
 
 # --- Comment Views (New CRUD Implementation) ---
@@ -220,3 +220,4 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # Redirect back to the post detail page after successful deletion
         messages.success(self.request, 'Your comment was deleted.')
         return reverse('post_detail', kwargs={'pk': self.object.post.pk})
+    
