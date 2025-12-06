@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
 from .models import Comment
-# Get the active User model (usually django.contrib.auth.models.User)
+# Get the active User model TagWidget()", "tags (usually django.contrib.auth.models.User)
 User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
