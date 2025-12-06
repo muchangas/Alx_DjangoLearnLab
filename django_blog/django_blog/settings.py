@@ -77,8 +77,8 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Example engine
-        'NAME': 'mydjangoblogdb',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
         'USER': 'db_user_name', # <-- This is where the USER is defined
         'PASSWORD': 'strong_password',
         'HOST': 'localhost',
