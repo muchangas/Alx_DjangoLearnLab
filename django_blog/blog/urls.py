@@ -92,7 +92,7 @@ urlpatterns = [
     # 9. List Posts by Tag
     path('tags/<slug:tag_slug>/', TaggedPostListView.as_view(), name='posts_by_tag'), # NEW
     
-    # Search URL
+    # Search URL PostByTagListView.as_view()
     # 10. Search Results
     path('search/', SearchResultsView.as_view(), name='search_results'), # NEW
 ]
