@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # New App Registration
     'blog.apps.BlogConfig',  # Or simply 'blog'
+    'taggit',
 ]
 
 MIDDLEWARE = [

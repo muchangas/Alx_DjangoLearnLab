@@ -75,3 +75,24 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
     path('profile/', profile, name='profile')
 ]
+
+# blog/urls.py (Snippet)
+
+from .views import (
+    # ... (Keep existing imports)
+    PostListView, # Use the base list view for search results (it inherits from it)
+    TaggedPostListView, # NEW
+    SearchResultsView # NEW
+)
+
+urlpatterns = [
+    # ... (Keep existing post CRUD and auth URLs) ...
+
+    # Tagging URLs
+    # 9. List Posts by Tag
+    path('tags/<slug:tag_slug>/', TaggedPostListView.as_view(), name='posts_by_tag'), # NEW
+    
+    # Search URL
+    # 10. Search Results
+    path('search/', SearchResultsView.as_view(), name='search_results'), # NEW
+]

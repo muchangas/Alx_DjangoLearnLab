@@ -220,4 +220,69 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # Redirect back to the post detail page after successful deletion
         messages.success(self.request, 'Your comment was deleted.')
         return reverse('post_detail', kwargs={'pk': self.object.post.pk})
+
+# blog/views.py (Snippet)
+
+# ... (Keep existing imports) ...
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    """Allows authenticated users to create a new post."""
+    model = Post
+    # UPDATE: Add 'tags' field
+    fields = ['title', 'content', 'tags'] 
+    template_name = 'blog/post_form.html'
     
+    # ... (Keep form_valid method) ...
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Allows the post author to edit their existing post."""
+    model = Post
+    # UPDATE: Add 'tags' field
+    fields = ['title', 'content', 'tags'] 
+    template_name = 'blog/post_form.html'
+
+    # ... (Keep form_valid and test_func methods) ...
+    # blog/views.py (Snippet)
+
+# ... (Keep existing imports)
+from django.db.models import Q # NEW IMPORT for complex queries
+from taggit.models import Tag # NEW IMPORT for tag filtering
+
+# ... (Keep existing views) ...
+
+class TaggedPostListView(PostListView):
+    """Displays a list of posts filtered by a specific tag."""
+    # Inherits most settings (model, template_name, ordering) from PostListView
+    
+    def get_queryset(self):
+        # Filter the posts where tags__slug equals the tag_slug passed in the URL
+        return Post.objects.filter(tags__slug=self.kwargs.get('tag_slug')).order_by('-published_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the tag name to the template for display
+        context['tag_name'] = self.kwargs.get('tag_slug').replace('-', ' ').title()
+        return context
+
+class SearchResultsView(PostListView):
+    """Handles keyword search across title, content, and tags."""
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            # Use Q objects for OR logic: search title OR content OR tags
+            object_list = Post.objects.filter(
+                Q(title__icontains=query) | 
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct().order_by('-published_date')
+        else:
+            object_list = Post.objects.none() # Return empty if no query
+        
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the original query back to the template
+        context['search_query'] = self.request.GET.get('q')
+        return context
