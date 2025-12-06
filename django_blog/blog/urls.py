@@ -34,10 +34,15 @@ from .views import (
     PostListView, 
     PostDetailView, 
     PostCreateView, 
-    PostUpdateView, 
-    PostDeleteView,
+    PostUpdateView,
+    PostDetailView,         
     register, # Existing FBV
-    profile  # Existing FBV
+    profile, # Existing FBV
+    add_comment,
+    CommentUpdateView,
+    CommentDeleteView,
+    PostDeleteView,
+
 )
 
 urlpatterns = [
@@ -55,10 +60,18 @@ urlpatterns = [
 
     # 5. DELETE (Requires Login & Author Check)
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
-
+ 
+    # 6. CREATE Comment (Function View)
+    path('post/<int:pk>/comment/new/', add_comment, name='add_comment'), 
+    
+    # 7. UPDATE Comment (Class View)
+    path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment_update'),
+    
+    # 8. DELETE Comment (Class View)
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     # --- Authentication URLs (Keep existing) ---
     path('register/', register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
-    path('profile/', profile, name='profile'),
+    path('profile/', profile, name='profile')
 ]

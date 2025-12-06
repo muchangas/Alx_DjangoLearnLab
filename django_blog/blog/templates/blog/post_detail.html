@@ -18,3 +18,50 @@
         </div>
     </article>
 {% endblock content %}
+
+{% extends "blog/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            </div>
+    </article>
+
+    <div class="comments-section">
+        <h3>Comments ({{ object.comments.count }})</h3>
+        
+        {% if user.is_authenticated %}
+            <div class="comment-form-area">
+                <form method="POST" action="{% url 'add_comment' object.pk %}">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend>Leave a Comment</legend>
+                        {{ comment_form.as_p }}
+                    </fieldset>
+                    <button class="btn btn-primary" type="submit">Post Comment</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">log in</a> to post a comment.</p>
+        {% endif %}
+        
+        <hr>
+
+        {% for comment in object.comments.all %}
+            <div class="comment-box">
+                <p><strong>{{ comment.author.username }}</strong> 
+                   <small class="text-muted">on {{ comment.created_at|date:"M d, Y, h:i a" }}</small>
+                </p>
+                <p>{{ comment.content }}</p>
+                
+                {% if comment.author == user %}
+                    <a href="{% url 'comment_update' comment.pk %}">Edit</a> |
+                    <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+                {% endif %}
+                <hr>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

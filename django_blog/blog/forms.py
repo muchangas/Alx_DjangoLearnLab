@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
-
+from .models import Comment
 # Get the active User model (usually django.contrib.auth.models.User)
 User = get_user_model()
 
@@ -29,3 +29,14 @@ class UserProfileEditForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+
+class CommentForm(forms.ModelForm):
+    """
+    Form for creating and updating comments.
+    """
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your comment here...'}),
+        }
