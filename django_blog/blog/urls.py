@@ -65,8 +65,8 @@ urlpatterns = [
     path('post/<int:pk>/comment/new/', add_comment, name='add_comment'),
 
     # 7. UPDATE Comment (Class View)
-    path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment_update'),
-
+    path('comment/<int:pk>/upgate/', CommentUpdateView.as_view(), name='comment_update'),
+    
     # 8. DELETE Comment (Class View)
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     # --- Authentication URLs (Keep existing) ---
