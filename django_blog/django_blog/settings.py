@@ -135,3 +135,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL to redirect to after a user logs in (name of the URL pattern)
+LOGIN_REDIRECT_URL = 'post_list' # Redirects to the home page
+
+# URL to redirect to if a user tries to access a protected page without logging in
+LOGIN_URL = 'login'
