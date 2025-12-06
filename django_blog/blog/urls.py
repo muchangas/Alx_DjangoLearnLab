@@ -62,7 +62,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
  
     # 6. CREATE Comment (Function View)
-    path('post/<int:pk>/comment/new/', add_comment, name='add_comment'),
+    path('post/<int:pk>/comments/new/', add_comment, name='add_comment'),
 
     # 7. UPDATE Comment (Class View)
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
