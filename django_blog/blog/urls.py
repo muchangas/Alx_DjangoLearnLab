@@ -50,9 +50,9 @@ urlpatterns = [
     # 3. READ (Detail - Accessible to all)
     path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     
-    # 4. UPDATE (Requires Login & Author Check)
+    #  4. UPDATE (Requires Login & Author Check)
     path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
-    
+
     # 5. DELETE (Requires Login & Author Check)
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
 
