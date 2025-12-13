@@ -196,4 +196,33 @@ class UserFeedView(ListAPIView):
             author__in=following_users
         ).select_related('author').order_by('-created_at')
         
-        return queryset
+        return 
+
+# accounts/views.py (Modify FollowUserView)
+
+from notifications.tasks import notify_user_followed # <--- ADD IMPORT
+
+# ... Existing FollowUserView class ...
+
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        # ... (Existing follow logic and checks) ...
+        user_to_follow = get_object_or_404(CustomUser, pk=user_id)
+        current_user = request.user
+        
+        # ... (Existing checks for self-follow and already following) ...
+
+        # Add the relationship: current_user follows user_to_follow
+        current_user.following.add(user_to_follow)
+        
+        # New: Generate Notification
+        notify_user_followed(follower=current_user, followed=user_to_follow)
+
+        return Response(
+            {"detail": f"Successfully followed {user_to_follow.username}."},
+            status=status.HTTP_200_OK
+        )
+
+# UnfollowUserView remains the same (no notification needed for unfollow)

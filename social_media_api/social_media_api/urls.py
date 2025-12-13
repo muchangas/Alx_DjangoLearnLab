@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     # New: Route for Posts and Comments API
     path('api/', include('posts.urls')),
+    path('api/notifications/', include('notifications.urls')), # <-- ADDED
 ]

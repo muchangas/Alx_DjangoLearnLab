@@ -83,3 +83,47 @@ class UserFeedView(ListAPIView):
         ).select_related('author').order_by('-created_at')
         
         return queryset
+    # posts/views.py (Add to existing content)
+
+# ... Existing imports ...
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Post, Comment, Like # <--- Import Like model
+# ...
+
+# --- Like/Unlike Views ---
+
+class LikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        user = request.user
+
+        # 1. Check if the user already liked the post
+        if Like.objects.filter(post=post, user=user).exists():
+            # If exists, treat this as an 'unlike' action (toggle behavior)
+            Like.objects.filter(post=post, user=user).delete()
+            
+            # Optionally delete the notification if it exists (complex, so skipping for simplicity)
+            
+            return Response({"detail": "Post unliked."}, status=status.HTTP_200_OK)
+
+        # 2. Create the Like object
+        Like.objects.create(post=post, user=user)
+        
+        # 3. Generate Notification (if user is not liking their own post)
+        if post.author != user:
+            from notifications.tasks import create_notification_async
+            # Call a utility function to create the notification
+            create_notification_async(
+                recipient=post.author,
+                actor=user,
+                verb='liked',
+                target=post
+            )
+
+        return Response({"detail": "Post liked."}, status=status.HTTP_201_CREATED)
