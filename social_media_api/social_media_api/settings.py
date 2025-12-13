@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 
-# Application definition "SECURE_BROWSER_XSS_FILTER", "X_FRAME_OPTIONS", "SECURE_SSL_REDIRECT"
+# Application definition "SECURE_BROWSER_XSS_FILTER", "PORT" "X_FRAME_OPTIONS", "SECURE_SSL_REDIRECT"
 
 INSTALLED_APPS = [
     'django.contrib.admin',
