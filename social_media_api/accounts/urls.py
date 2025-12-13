@@ -12,4 +12,6 @@ urlpatterns = [
     
     # /profile/ - View/Edit authenticated user's profile
     path('profile/', UserProfileView.as_view(), name='user_profile'),
+    path('follow/<int:user_id>/', FollowUserView.as_view(), name='user_follow'),
+    path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='user_unfollow'),
 ]

@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     
     # List and Create comments for a specific post
+    path('feed/', UserFeedView.as_view(), name='user_feed'), # <-- ADDED
     path('posts/<int:post_pk>/comments/', CommentViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-comments-list'),
     
     # Retrieve, Update, Destroy a specific comment

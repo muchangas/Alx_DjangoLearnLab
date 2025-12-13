@@ -8,6 +8,8 @@ from rest_framework.pagination import PageNumberPagination
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 
 # --- Custom Pagination ---
 
@@ -58,3 +60,26 @@ class CommentViewSet(viewsets.ModelViewSet):
         if post_pk:
             return self.queryset.filter(post__pk=post_pk)
         return self.queryset
+
+class UserFeedView(ListAPIView):
+    """
+    Returns a list of posts from all users that the current user is following,
+    ordered by creation date (newest first).
+    """
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsPagination # Reuse existing pagination
+
+    def get_queryset(self):
+        user = self.request.user
+        
+        # 1. Get the list of users the current user is following (a QuerySet of CustomUser objects)
+        following_users = user.following.all()
+        
+        # 2. Filter posts to include only those where the author is in the 'following_users' list
+        # We also use .select_related('author') to optimize database queries.
+        queryset = Post.objects.filter(
+            author__in=following_users
+        ).select_related('author').order_by('-created_at')
+        
+        return queryset

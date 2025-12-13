@@ -59,3 +59,65 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        # The user to be followed
+        user_to_follow = get_object_or_404(CustomUser, pk=user_id)
+        
+        # The authenticated user performing the action
+        current_user = request.user
+
+        if current_user == user_to_follow:
+            return Response(
+                {"detail": "You cannot follow yourself."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Check if the user is already following
+        if current_user.following.filter(pk=user_to_follow.pk).exists():
+            return Response(
+                {"detail": f"You are already following {user_to_follow.username}."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Add the relationship: current_user follows user_to_follow
+        # 'following' is the reverse relationship manager of the 'followers' M2M field
+        current_user.following.add(user_to_follow)
+        
+        return Response(
+            {"detail": f"Successfully followed {user_to_follow.username}."},
+            status=status.HTTP_200_OK
+        )
+
+class UnfollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        # The user to be unfollowed
+        user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
+        
+        current_user = request.user
+
+        if current_user == user_to_unfollow:
+            return Response(
+                {"detail": "You cannot unfollow yourself."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Check if the user is actually following
+        if not current_user.following.filter(pk=user_to_unfollow.pk).exists():
+             return Response(
+                {"detail": f"You are not following {user_to_unfollow.username}."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Remove the relationship
+        current_user.following.remove(user_to_unfollow)
+
+        return Response(
+            {"detail": f"Successfully unfollowed {user_to_unfollow.username}."},
+            status=status.HTTP_200_OK
+        )
