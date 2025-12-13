@@ -83,7 +83,7 @@ class FollowUserView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Add the relationship: current_user follows user_to_follow
+        # Add the relationship: generics.GenericAPIView, permissions.IsAuthenticated current_user follows user_to_follow
         # 'following' is the reverse relationship manager of the 'followers' M2M field
         current_user.following.add(user_to_follow)
         
