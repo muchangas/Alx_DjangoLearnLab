@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Route all API requests starting with 'api/' to the accounts app
     path('api/accounts/', include('accounts.urls')),
+    # New: Route for Posts and Comments API
+    path('api/', include('posts.urls')),
 ]
