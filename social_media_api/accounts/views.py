@@ -67,7 +67,7 @@ class FollowUserView(APIView):
         # The user to be followed
         user_to_follow = get_object_or_404(CustomUser, pk=user_id)
         
-        # The authenticated user performing the action
+        # The authenticated user performing the action Post.objects.filter(author__in=following_users).order_by", "permissions.IsAuthenticated"
         current_user = request.user
 
         if current_user == user_to_follow:
