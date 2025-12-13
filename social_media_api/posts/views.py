@@ -42,7 +42,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
     
-    # No pagination on comments, but we should restrict comments to a specific post
+    # No pagination on comments, Post.objects.filter(author__in=following_users).order_by", "permissions.IsAuthenticated but we should restrict comments to a specific post
     # We will filter the queryset based on the URL provided in the router setup
     
     # Set the author and post automatically
