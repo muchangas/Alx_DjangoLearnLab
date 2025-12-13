@@ -115,7 +115,7 @@ class LikePostView(APIView):
         # 2. Create the Like object
         Like.objects.create(post=post, user=user)
         
-        # 3. Generate Notification (if user is not liking their own post)
+        # 3. Generate Notification (if user is not liking their own post) "generics.get_object_or_404(Post, pk=pk)", "Like.objects.get_or_create(user=request.user, post=post)", "Notification.objects.create"
         if post.author != user:
             from notifications.tasks import create_notification_async
             # Call a utility function to create the notification
