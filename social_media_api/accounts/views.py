@@ -2,10 +2,10 @@
 
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.models import Token # <-- HERE IS WHERE TOKEN IS IMPORTED
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from .serializers import UserRegistrationSerializer, UserProfileSerializer
 from .models import CustomUser
 
@@ -16,10 +16,12 @@ class UserRegistrationView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        
+        # 1. User object is created by the serializer's create() method
         user = serializer.save()
 
-        # Token generation upon successful registration
-        token, created = Token.objects.get_or_create(user=user)
+        # 2. Token creation is handled in the View
+        token, created = Token.objects.get_or_create(user=user) # <-- HERE IS WHERE TOKEN IS CREATED/RETRIEVED
 
         return Response({
             "user_id": user.pk,
@@ -33,32 +35,27 @@ class UserLoginView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
 
-        # Authenticate user
+        # Authenticate user using Django's built-in system
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Login successful
-            # We don't necessarily call Django's login, but we retrieve the token
-            token, created = Token.objects.get_or_create(user=user)
+            # Token retrieval is handled in the View
+            token, created = Token.objects.get_or_create(user=user) # <-- HERE IS WHERE TOKEN IS RETRIEVED
 
             return Response({
                 "user_id": user.pk,
                 "username": user.username,
-                "token": token.key, # Return the existing or newly created token
+                "token": token.key, 
                 "message": "Login successful"
             }, status=status.HTTP_200_OK)
         else:
-            # Login failed
             return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+# UserProfileView remains the same
 class UserProfileView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        # Ensure the user can only view/edit their own profile
         return self.request.user
-
-    # You don't need to override 'get' and 'put/patch' for simple RetrieveUpdate
-    # but the get_object ensures the correct user is returned.
