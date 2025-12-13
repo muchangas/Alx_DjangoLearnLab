@@ -32,7 +32,7 @@ urlpatterns = [
     # The 'unlike' functionality is built into the POST method of LikePostView
     path('posts/<int:pk>/like/', LikePostView.as_view(), name='post_like_toggle'),
 
-    # Existing Post and Comment Routes
+    # Existing Post and Comment Routes "<int:pk>/unlike/"
     path('', include(router.urls)), 
     # ... nested comment routes ...
 ]
